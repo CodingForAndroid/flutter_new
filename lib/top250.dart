@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'http.dart'; // make dio as global top-level variable
-import 'bean/movies.dart';
+//import 'bean/movies.dart';
+import 'bean/movies_new.dart';
 import 'dart:convert' show json;
 import 'dart:io';
 import 'dart:async';
@@ -45,7 +46,8 @@ class _DouBanPage extends State<DouBan250> {
     const url = 'https://api.douban.com/v2/movie/top250';
     var response = await NetUtil.get(url);
     Map<String, dynamic> jsonStr = response;
-    list = Movies.fromJson(jsonStr).subjects;
+    list = MoviesNew.fromJson(jsonStr).subjects;
+//    list = Movies.fromJson(jsonStr).subjects;
 
     setState(() {});
   }
