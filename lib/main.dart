@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'top250.dart';
 import 'list.dart';
-
+import 'integral.dart';
+import 'tabbar.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -55,7 +56,23 @@ class _MyHomePageState extends State<MyHomePage> {
                   return DouBan250();
                 }));
               },
-            )
+            ),
+            RaisedButton(
+              child: Text('积分明细'),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return IntegralDetails();
+                }));
+              },
+            ),
+            RaisedButton(
+              child: Text('测试TabBar'),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return TabBarDemo();
+                }));
+              },
+            ),
           ],
         ),
       ),

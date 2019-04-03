@@ -1,0 +1,19 @@
+{
+  "title": "我的积分",
+  "balance": "2421",
+  "integralMallUrl": "",
+  "integralDescription": "",
+  "integralClearText": "您有2300积分将于2018年12月31日清零",
+  "details": [
+    {
+      "explain": "购买商品获得积分，订单号为：BJ17051968049064",
+      "operationTime": "2019-02-14 10:10:10",
+      "integralNumber": "+100"
+    },
+    {
+      "explain": "购买商品获得积分，订单号为：BJ17051968049064",
+      "operationTime": "2019-02-14 10:10:10",
+      "integralNumber": "+100"
+    }
+  ]
+}
