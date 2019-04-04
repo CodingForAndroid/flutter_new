@@ -4,6 +4,8 @@ import 'top250.dart';
 import 'list.dart';
 import 'integral.dart';
 import 'tabbar.dart';
+import 'platform_channel.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final String title;
 
-  MyHomePage({Key key, this.title}) :super(key: key);
+  MyHomePage({Key key, this.title}) : super(key: key);
 
   @override
   _MyHomePageState createState() => _MyHomePageState();
@@ -73,10 +75,17 @@ class _MyHomePageState extends State<MyHomePage> {
                 }));
               },
             ),
+            RaisedButton(
+              child: Text('PlatformChannel'),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PlatformChannel();
+                }));
+              },
+            ),
           ],
         ),
       ),
     );
   }
-
 }
