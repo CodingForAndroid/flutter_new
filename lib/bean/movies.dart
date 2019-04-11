@@ -4,7 +4,7 @@ class Movies {
   int count;
   int start;
   int total;
-  List<Subject> subjects;
+  List<Subject2> subjects;
   String title;
 
   Movies.fromJson(Map<String, dynamic> jsonStr) {
@@ -16,7 +16,7 @@ class Movies {
     subjects = [];
     if (jsonStr['subjects'] != null) {
       (jsonStr['subjects'] as List).forEach((dataItem) {
-        subjects.add(new Subject(dataItem));
+        subjects.add(new Subject2(dataItem));
       });
     }
     // 这样出错
@@ -25,16 +25,16 @@ class Movies {
 //        subjects.add(new Subject(dataItem));
 //      }
 //    }
-    print('=============, ${title}');
+
   }
 }
 
-class Subject {
+class Subject2 {
   String title;
   String year;
   ImageUrl images;
 
-  Subject(Map<String, dynamic> jsonStr) {
+  Subject2(Map<String, dynamic> jsonStr) {
     title = jsonStr['title'];
     year = jsonStr['year'];
     print('==========images==========,${jsonStr['images'].toString()}');

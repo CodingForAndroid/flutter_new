@@ -8,6 +8,7 @@ import android.os.BatteryManager;
 import android.os.Build.VERSION;
 import android.os.Build.VERSION_CODES;
 import android.os.Bundle;
+import android.util.Log;
 
 import io.flutter.app.FlutterActivity;
 import io.flutter.plugin.common.EventChannel;
@@ -24,11 +25,21 @@ import static android.content.Context.BATTERY_SERVICE;
 public class MainActivity extends FlutterActivity {
     private static final String BATTERY_CHANNEL = "samples.flutter.io/battery";
     private static final String CHARGING_CHANNEL = "samples.flutter.io/charging";
+    private String data;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
+        data = "{\n" +
+                "\t\"animals\":{\n" +
+                "\t\"dog\":[\n" +
+                "\t\t{\"name\":\"Rufus\",\"breed\":\"labrador\",\"count\":1,\"twoFeet\":false},\n" +
+                "\t\t{\"name\":\"Marty\",\"breed\":\"whippet\",\"count\":1,\"twoFeet\":false}\n" +
+                "\t],\n" +
+                "\t\"cat\":{\"name\":\"Matilda\"}\n" +
+                "}\n" +
+                "}";
         new EventChannel(getFlutterView(), CHARGING_CHANNEL).setStreamHandler(
                 new StreamHandler() {
                     private BroadcastReceiver chargingStateChangeReceiver;
@@ -37,6 +48,7 @@ public class MainActivity extends FlutterActivity {
                         chargingStateChangeReceiver = createChargingStateChangeReceiver(events);
                         registerReceiver(
                                 chargingStateChangeReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
+                        Log.e("EventChannel","onListen");
                     }
 
                     @Override
@@ -55,7 +67,7 @@ public class MainActivity extends FlutterActivity {
                             int batteryLevel = getBatteryLevel();
 
                             if (batteryLevel != -1) {
-                                result.success(batteryLevel);
+                                result.success(data);
                             } else {
                                 result.error("UNAVAILABLE", "Battery level not available.", null);
                             }
@@ -78,7 +90,7 @@ public class MainActivity extends FlutterActivity {
                 } else {
                     boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
                             status == BatteryManager.BATTERY_STATUS_FULL;
-                    events.success(isCharging ? "charging" : "discharging");
+                    events.success(isCharging ? data : data);
                 }
             }
         };

@@ -1,12 +1,11 @@
 // Copyright 2017 The Chromium Authors. All rights reserved.
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
-
+import 'dart:convert';
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
+import 'bean/animals_root.dart';
 class PlatformChannel extends StatefulWidget {
   @override
   _PlatformChannelState createState() => _PlatformChannelState();
@@ -24,7 +23,7 @@ class _PlatformChannelState extends State<PlatformChannel> {
   Future<void> _getBatteryLevel() async {
     String batteryLevel;
     try {
-      final int result = await methodChannel.invokeMethod('getBatteryLevel');
+      final String result = await methodChannel.invokeMethod('getBatteryLevel');
       batteryLevel = 'Battery level: $result%.';
     } on PlatformException {
       batteryLevel = 'Failed to get battery level.';
@@ -41,9 +40,17 @@ class _PlatformChannelState extends State<PlatformChannel> {
   }
 
   void _onEvent(Object event) {
-    setState(() {
+
+
+// print( AnimalsRoot.fromJson(event).animals.cat.name);
+  var animal =json.decode(event);
+
+  print(animal);
+  print( AnimalsRoot.fromJson(animal).animals.cat.name);
+  setState(() {
       _chargingStatus =
-          "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+//          "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
+  "Battery status:$event";
     });
   }
 
