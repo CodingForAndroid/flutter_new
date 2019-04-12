@@ -23,88 +23,62 @@ import io.flutter.plugins.GeneratedPluginRegistrant;
 import static android.content.Context.BATTERY_SERVICE;
 
 public class MainActivity extends FlutterActivity {
-    private static final String BATTERY_CHANNEL = "samples.flutter.io/battery";
-    private static final String CHARGING_CHANNEL = "samples.flutter.io/charging";
-    private String data;
+    private static final String EVENT_CHANNEL = "com.womai.flutter/receive";
+    private static final String METHOD_CHANNEL = "com.womai.flutter/fetch";
+    String data = "{\n" +
+            "\t\"animals\":{\n" +
+            "\t\"dog\":[\n" +
+            "\t\t{\"name\":\"Rufus\",\"breed\":\"labrador\",\"count\":1,\"twoFeet\":false},\n" +
+            "\t\t{\"name\":\"Marty\",\"breed\":\"whippet\",\"count\":1,\"twoFeet\":false}\n" +
+            "\t],\n" +
+            "\t\"cat\":{\"name\":\"Matilda\"}\n" +
+            "}\n" +
+            "}";
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
-        data = "{\n" +
-                "\t\"animals\":{\n" +
-                "\t\"dog\":[\n" +
-                "\t\t{\"name\":\"Rufus\",\"breed\":\"labrador\",\"count\":1,\"twoFeet\":false},\n" +
-                "\t\t{\"name\":\"Marty\",\"breed\":\"whippet\",\"count\":1,\"twoFeet\":false}\n" +
-                "\t],\n" +
-                "\t\"cat\":{\"name\":\"Matilda\"}\n" +
-                "}\n" +
-                "}";
-        new EventChannel(getFlutterView(), CHARGING_CHANNEL).setStreamHandler(
-                new StreamHandler() {
-                    private BroadcastReceiver chargingStateChangeReceiver;
-                    @Override
-                    public void onListen(Object arguments, EventSink events) {
-                        chargingStateChangeReceiver = createChargingStateChangeReceiver(events);
-                        registerReceiver(
-                                chargingStateChangeReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-                        Log.e("EventChannel","onListen");
-                    }
 
-                    @Override
-                    public void onCancel(Object arguments) {
-                        unregisterReceiver(chargingStateChangeReceiver);
-                        chargingStateChangeReceiver = null;
-                    }
-                }
-        );
-
-        new MethodChannel(getFlutterView(), BATTERY_CHANNEL).setMethodCallHandler(
-                new MethodCallHandler() {
-                    @Override
-                    public void onMethodCall(MethodCall call, Result result) {
-                        if (call.method.equals("getBatteryLevel")) {
-                            int batteryLevel = getBatteryLevel();
-
-                            if (batteryLevel != -1) {
-                                result.success(data);
-                            } else {
-                                result.error("UNAVAILABLE", "Battery level not available.", null);
-                            }
-                        } else {
-                            result.notImplemented();
-                        }
-                    }
-                }
-        );
+        native2Dart();
+        responseDart();
     }
 
-    private BroadcastReceiver createChargingStateChangeReceiver(final EventSink events) {
-        return new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                int status = intent.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+    /**
+     * native data to  dart
+     */
+    private void native2Dart() {
+        /**
+         * 数据流的通信（event streams）
+         */
+        EventChannel eventChannel = new EventChannel(getFlutterView(), EVENT_CHANNEL);
+        EventChannel.StreamHandler streamHandler = new EventChannel.StreamHandler() {
 
-                if (status == BatteryManager.BATTERY_STATUS_UNKNOWN) {
-                    events.error("UNAVAILABLE", "Charging status unavailable", null);
-                } else {
-                    boolean isCharging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                            status == BatteryManager.BATTERY_STATUS_FULL;
-                    events.success(isCharging ? data : data);
-                }
+            @Override
+            public void onListen(Object arguments, EventSink eventSink) {
+                Log.e("plateform_channel", "arguments: " + arguments.toString());
+                eventSink.success(data);
+            }
+
+            @Override
+            public void onCancel(Object arguments) {
+                Log.e("plateform_channel", "arguments: " + arguments.toString());
             }
         };
+        eventChannel.setStreamHandler(streamHandler);
     }
 
-    private int getBatteryLevel() {
-        if (VERSION.SDK_INT >= VERSION_CODES.LOLLIPOP) {
-            BatteryManager batteryManager = (BatteryManager) getSystemService(BATTERY_SERVICE);
-            return batteryManager.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY);
-        } else {
-            Intent intent = new ContextWrapper(getApplicationContext()).
-                    registerReceiver(null, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
-            return (intent.getIntExtra(BatteryManager.EXTRA_LEVEL, -1) * 100) /
-                    intent.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        }
+    private void responseDart() {
+        MethodChannel methodChannel = new MethodChannel(getFlutterView(), METHOD_CHANNEL);
+        methodChannel.setMethodCallHandler(new MethodCallHandler() {
+            @Override
+            public void onMethodCall(MethodCall methodCall, Result result) {
+                if (methodCall.method.equals("customMethodName")) {
+                    result.success(data);
+                } else {
+                    result.notImplemented();
+                }
+            }
+        });
     }
 }

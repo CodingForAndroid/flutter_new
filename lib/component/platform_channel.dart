@@ -5,7 +5,9 @@ import 'dart:convert';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'bean/animals_root.dart';
+import '../model/animals_root.dart';
+import '../utils/womai_channel.dart';
+
 class PlatformChannel extends StatefulWidget {
   @override
   _PlatformChannelState createState() => _PlatformChannelState();
@@ -13,50 +15,48 @@ class PlatformChannel extends StatefulWidget {
 
 class _PlatformChannelState extends State<PlatformChannel> {
   static const MethodChannel methodChannel =
-      MethodChannel('samples.flutter.io/battery');
+      MethodChannel(FlutterChannel.CHANNEL_FETCH_DATA);
   static const EventChannel eventChannel =
-      EventChannel('samples.flutter.io/charging');
+      EventChannel(FlutterChannel.CHANNEL_RECEIVE_DATA);
 
-  String _batteryLevel = 'Battery level: unknown.';
-  String _chargingStatus = 'Battery status: unknown.';
+  var _fetch_data = '';
+  var _receive_data = '';
 
-  Future<void> _getBatteryLevel() async {
-    String batteryLevel;
+  Future<void> _fechtData() async {
+    String receiveData;
     try {
-      final String result = await methodChannel.invokeMethod('getBatteryLevel');
-      batteryLevel = 'Battery level: $result%.';
+
+      final String result =
+          await methodChannel.invokeMethod('customMethodName','arg1');
+
+      receiveData = '$result';
     } on PlatformException {
-      batteryLevel = 'Failed to get battery level.';
+      receiveData = 'Fetch Failed';
     }
     setState(() {
-      _batteryLevel = batteryLevel;
+      _fetch_data = receiveData;
     });
   }
 
   @override
   void initState() {
     super.initState();
-    eventChannel.receiveBroadcastStream().listen(_onEvent, onError: _onError);
+
+    eventChannel.receiveBroadcastStream(['arg1', 'arg2']).listen(_onEvent,
+        onError: _onError);
   }
 
   void _onEvent(Object event) {
-
-
-// print( AnimalsRoot.fromJson(event).animals.cat.name);
-  var animal =json.decode(event);
-
-  print(animal);
-  print( AnimalsRoot.fromJson(animal).animals.cat.name);
-  setState(() {
-      _chargingStatus =
-//          "Battery status: ${event == 'charging' ? '' : 'dis'}charging.";
-  "Battery status:$event";
+    var animal = json.decode(event);
+    print(AnimalsRoot.fromJson(animal).animals.cat.name);
+    setState(() {
+      _receive_data = '$event';
     });
   }
 
   void _onError(Object error) {
     setState(() {
-      _chargingStatus = 'Battery status: unknown.';
+      _receive_data = 'Receive  failed';
     });
   }
 
@@ -69,17 +69,17 @@ class _PlatformChannelState extends State<PlatformChannel> {
           Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
-              Text(_batteryLevel, key: const Key('Battery level label')),
+              Text(_fetch_data),
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: RaisedButton(
-                  child: const Text('Refresh'),
-                  onPressed: _getBatteryLevel,
+                  child: const Text('Fetch Data'),
+                  onPressed: _fechtData,
                 ),
               ),
             ],
           ),
-          Text(_chargingStatus),
+          Text(_receive_data),
         ],
       ),
     );

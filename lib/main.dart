@@ -4,8 +4,8 @@ import 'top250.dart';
 import 'list.dart';
 import 'integral.dart';
 import 'tabbar.dart';
-import 'platform_channel.dart';
 
+import 'component/platform_channel.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
