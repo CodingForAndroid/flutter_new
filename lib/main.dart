@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:flutter_new/ui/top250.dart';
-import 'package:flutter_new/ui/list.dart';
-import 'package:flutter_new/ui/integral.dart';
-import 'package:flutter_new/ui/tabbar.dart';
-
+import 'ui/top250.dart';
+import 'ui/list.dart';
+import 'ui/integral.dart';
+import 'ui/tabbar.dart';
+import 'ui/route_home.dart';
 import 'component/platform_channel.dart';
 void main() => runApp(MyApp());
 
@@ -86,9 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
             RaisedButton(
               child: Text('Route'),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return PlatformChannel();
-                }));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => RouteHome()
+               ));
               },
             ),
           ],
