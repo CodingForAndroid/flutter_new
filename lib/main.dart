@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'top250.dart';
-import 'list.dart';
-import 'integral.dart';
-import 'tabbar.dart';
+import 'package:flutter_new/ui/top250.dart';
+import 'package:flutter_new/ui/list.dart';
+import 'package:flutter_new/ui/integral.dart';
+import 'package:flutter_new/ui/tabbar.dart';
 
 import 'component/platform_channel.dart';
 void main() => runApp(MyApp());
@@ -77,6 +77,14 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             RaisedButton(
               child: Text('PlatformChannel'),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return PlatformChannel();
+                }));
+              },
+            ),
+            RaisedButton(
+              child: Text('Route'),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
                   return PlatformChannel();

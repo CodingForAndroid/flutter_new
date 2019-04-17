@@ -3,7 +3,7 @@ import 'package:english_words/english_words.dart';
 import 'dart:convert';
 
 //import 'package:flutter_new/integral.dart';
-import 'bean/integral.dart';
+import '../bean/integral.dart';
 /**
  * 1.继承StatefulWidget 复写 createState() 方法
  * 2. 继承State<> ,复写  Widget build(BuildContext context) 方法

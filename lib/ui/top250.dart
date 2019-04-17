@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'http.dart'; // make dio as global top-level variable
-import 'bean/movies.dart';
-import 'bean/movies_new.dart';
+import '../http.dart'; // make dio as global top-level variable
+import '../bean/movies.dart';
+import '../bean/movies_new.dart';
 import 'dart:convert' show json;
 import 'dart:io';
 import 'dart:async';
