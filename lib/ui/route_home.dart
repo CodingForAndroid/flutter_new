@@ -3,12 +3,15 @@ import 'static_navigator_page.dart';
 import 'dynamic_navigator_page.dart';
 ///静态路由
 class RouteHome extends StatefulWidget {
+
+
   @override
   _RouteHomeState createState() => _RouteHomeState();
 }
 
 ///StatefulWidget
 class _RouteHomeState extends State<RouteHome> {
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -43,10 +46,21 @@ class _RouteHomeState extends State<RouteHome> {
               },
             ),
             RaisedButton(
-              child: Text('静态路由'),
+              child: Text('静态路由接收上一页面返回值'),
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => StaticNavPage()));
+                Navigator.of(context).pushNamed('/a').then((onValue)=>
+                    showDialog(
+                    context: context,
+                    child: new AlertDialog(
+                      content: new Text(onValue),
+                    ))
+                );
+              },
+            ),
+            RaisedButton(
+              child: Text('返回'),
+              onPressed: () {
+                Navigator.of(context).pop();
               },
             ),
           ],

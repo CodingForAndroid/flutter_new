@@ -2,6 +2,11 @@ import 'package:flutter/material.dart';
 
 ///静态路由
 class StaticNavPage extends StatefulWidget {
+  var title;
+  StaticNavPage({Key key,title}){
+    this.title = title;
+    print(this.title);
+  }
   @override
   _StaticNavPageState createState() => _StaticNavPageState();
 }
@@ -16,7 +21,7 @@ class _StaticNavPageState extends State<StaticNavPage> {
       ),
       floatingActionButton: new FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop("StaticNavPage 返回值");
         },
         child: new Text("返回"),
       ),

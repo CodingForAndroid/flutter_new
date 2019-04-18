@@ -5,7 +5,9 @@ import 'ui/list.dart';
 import 'ui/integral.dart';
 import 'ui/tabbar.dart';
 import 'ui/route_home.dart';
+import 'ui/static_navigator_page.dart';
 import 'component/platform_channel.dart';
+
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -13,6 +15,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      routes: <String, WidgetBuilder>{
+        '/a': (BuildContext context) => StaticNavPage(title: 'page A'),
+        '/b': (BuildContext context) => StaticNavPage(title: 'page B'),
+        '/c': (BuildContext context) => StaticNavPage(title: 'page C'),
+    },
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
