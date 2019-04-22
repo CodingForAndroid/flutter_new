@@ -30,6 +30,8 @@ dev_dependencies:
   # json format json_serializable
   build_runner: ^1.0.0
   json_serializable: ^2.0.0
+  #动态路由管理
+  annotation_route: any
 
 
 # For information on the generic Dart part of this file, see the

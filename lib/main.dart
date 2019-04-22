@@ -1,3 +1,4 @@
+import 'package:annotation_route/route.dart';
 import 'package:flutter/material.dart';
 
 import 'ui/top250.dart';
@@ -7,11 +8,12 @@ import 'ui/tabbar.dart';
 import 'ui/route_home.dart';
 import 'ui/static_navigator_page.dart';
 import 'component/platform_channel.dart';
-
+import 'route/router.dart';
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -39,6 +41,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var router = new Router();
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -93,8 +96,16 @@ class _MyHomePageState extends State<MyHomePage> {
             RaisedButton(
               child: Text('Route'),
               onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) => RouteHome()
-               ));
+              Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context){
+
+                var option = new MyRouteOption(urlpattern: 'myapp://pagea');
+                option.urlpattern = 'myapp://pagea';
+               option.params = Map<String, dynamic> ();
+                print(option.urlpattern) ;
+                ARouterResult routerResult = router.getPage(option);
+                print(routerResult.widget ==null);
+                return routerResult.widget;
+              }));
               },
             ),
           ],

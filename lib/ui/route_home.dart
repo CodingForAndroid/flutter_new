@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'static_navigator_page.dart';
 import 'dynamic_navigator_page.dart';
+import 'package:annotation_route/route.dart';
+import 'package:flutter_new/route/router.dart';
 ///静态路由
+///
+@ARoute(url: 'myapp://pagea')
 class RouteHome extends StatefulWidget {
 
-
+  RouteHome(MyRouteOption  option) : super();
   @override
   _RouteHomeState createState() => _RouteHomeState();
 }
