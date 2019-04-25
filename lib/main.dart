@@ -1,6 +1,7 @@
 import 'package:annotation_route/route.dart';
 import 'package:flutter/material.dart';
 
+import 'widget/tabbar/demo.dart';
 import 'ui/top250.dart';
 import 'ui/list.dart';
 import 'ui/integral.dart';
@@ -9,6 +10,7 @@ import 'ui/route_home.dart';
 import 'ui/static_navigator_page.dart';
 import 'component/platform_channel.dart';
 import 'route/router.dart';
+import 'dart:ui' as ui;
 void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
@@ -34,14 +36,18 @@ class MyApp extends StatelessWidget {
 class MyHomePage extends StatefulWidget {
   final String title;
 
-  MyHomePage({Key key, this.title}) : super(key: key);
+//  MyHomePage({Key key, this.title}) : super(key: key);
 
+  MyHomePage({Key key, this.title}){
+  print(  ui.window.defaultRouteName);
+  }
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
   var router = new Router();
+
   @override
   Widget build(BuildContext context) {
     // TODO: implement build
@@ -86,6 +92,14 @@ class _MyHomePageState extends State<MyHomePage> {
               },
             ),
             RaisedButton(
+              child: Text('测试TabBar1'),
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: (context) {
+                  return TabDemo();
+                }));
+              },
+            ),
+            RaisedButton(
               child: Text('PlatformChannel'),
               onPressed: () {
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
@@ -100,7 +114,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 var option = new MyRouteOption(urlpattern: 'myapp://pagea');
                 option.urlpattern = 'myapp://pagea';
-               option.params = Map<String, dynamic> ();
+                option.params = Map<String, dynamic> ();
                 print(option.urlpattern) ;
                 ARouterResult routerResult = router.getPage(option);
                 print(routerResult.widget ==null);

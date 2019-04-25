@@ -19,12 +19,14 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.MethodCall;
 import io.flutter.plugins.GeneratedPluginRegistrant;
-
+import io.flutter.view.FlutterNativeView;
+import io.flutter.view.FlutterView;
 import static android.content.Context.BATTERY_SERVICE;
-
+import android.view.WindowManager;
 public class MainActivity extends FlutterActivity {
     private static final String EVENT_CHANNEL = "com.womai.flutter/receive";
     private static final String METHOD_CHANNEL = "com.womai.flutter/fetch";
+    private String routeName = "";
     String data = "{\n" +
             "\t\"animals\":{\n" +
             "\t\"dog\":[\n" +
@@ -36,7 +38,18 @@ public class MainActivity extends FlutterActivity {
             "}";
 
     @Override
+    public FlutterView createFlutterView(Context context) {
+        WindowManager.LayoutParams matchParent = new WindowManager.LayoutParams(-1, -1);
+        FlutterNativeView nativeView = this.createFlutterNativeView();
+        FlutterView flutterView = new FlutterView(this,  null, nativeView);
+        flutterView.setInitialRoute(routeName);
+        flutterView.setLayoutParams(matchParent);
+        this.setContentView(flutterView);
+        return flutterView;
+    }
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
+        routeName = "demo?{\"id\":112233}";
         super.onCreate(savedInstanceState);
         GeneratedPluginRegistrant.registerWith(this);
 

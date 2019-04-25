@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 import 'dart:convert';
-
 //import 'package:flutter_new/integral.dart';
+//import 'package:flutter_new/mine_tabs.dart';
 import '../bean/integral.dart';
 /**
  * 1.继承StatefulWidget 复写 createState() 方法
@@ -45,25 +45,17 @@ class _IntegralDetail extends State<IntegralDetails>
       body: Column(
         children: <Widget>[
           _createHeader(),
-//          _createList(),
           Container(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                TabBar(
-                  unselectedLabelColor: Colors.black,
-                  labelColor: Colors.green,
-                  indicatorColor: Colors.green,
-                  //指示器颜色 如果和标题栏颜色一样会白色
-                  tabs: myTabs,
-                  //绑定数据
-                  isScrollable: true,
-                  //是否可以滑动
-                  controller: _tabController,
-                ),
-              ],
-            ),
+            child: TabBar(
+              unselectedLabelColor: Color(0xff333333),
+              labelColor: Color(0xff00a651),
+              indicatorColor: Color(0xff00a651),
+              //指示器颜色 如果和标题栏颜色一样会白色
+              tabs: myTabs,
 
+              //是否可以滑动
+              controller: _tabController,
+            ),
           ),
           Expanded(
             child: TabBarView(
@@ -110,7 +102,7 @@ class _IntegralDetail extends State<IntegralDetails>
                   '每日签到送积分',
                   style: TextStyle(
                     //颜色
-                    color: Colors.red,
+                    color: Color(0xffff3530),
                     //字体大小
                     fontSize: 13,
                     //字体加粗
@@ -118,7 +110,6 @@ class _IntegralDetail extends State<IntegralDetails>
                   ),
                 ),
               ),
-
               Text('2017-17-11 10：10:10'),
             ],
           ),
@@ -136,9 +127,10 @@ class _IntegralDetail extends State<IntegralDetails>
         children: <Widget>[
           Container(
             child: TabBar(
-              unselectedLabelColor: Colors.black,
-              labelColor: Colors.green,
-              indicatorColor: Colors.green,
+              unselectedLabelColor: Color(0xff333333),
+              labelColor: Color(0xff00a651),
+//              color:Color(0xff00a651),
+              indicatorColor: Color(0xff00a651),
               //指示器颜色 如果和标题栏颜色一样会白色
               tabs: myTabs,
               //绑定数据
@@ -172,13 +164,14 @@ class _IntegralDetail extends State<IntegralDetails>
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Container(
-                color: Colors.red,
 //                margin:EdgeInsets.fromLTRB(5,50,5,50),//设置外边距
                 padding: EdgeInsets.all(10), //内边距
-                child: Text("我的积分"),
+                child: Text(
+                  "我的积分",
+                  style: TextStyle(color: Color(0xff333333), fontSize: 15),
+                ),
               ),
               Container(
-                color: Colors.red,
                 width: 17,
                 height: 17,
                 margin: EdgeInsets.fromLTRB(0, 0, 10, 0),
@@ -197,7 +190,7 @@ class _IntegralDetail extends State<IntegralDetails>
                   "2421",
                   style: TextStyle(
                     //颜色
-                    color: Colors.red,
+                    color: Color(0xffff3530),
                     //字体大小
                     fontSize: 21,
                     //字体加粗
@@ -211,7 +204,7 @@ class _IntegralDetail extends State<IntegralDetails>
                 decoration: BoxDecoration(
                   //设置边框
                   //背景色
-                  color: Colors.redAccent,
+                  color: Color(0xff00a651),
                   //圆角
                   borderRadius: BorderRadius.circular(6),
                 ),
@@ -243,13 +236,12 @@ class _IntegralDetail extends State<IntegralDetails>
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
               Container(
-                color: Colors.black,
                 margin: EdgeInsets.fromLTRB(10, 0, 10, 0), //设置外边距
                 child: Text(
                   "您有2300积分将于2017年12月31日清零",
                   style: TextStyle(
                     //颜色
-                    color: Colors.red,
+                    color: Color(0xffff3530),
                     //字体大小
                     fontSize: 13,
                     //字体加粗
